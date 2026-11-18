@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#090d18" />
+  <title>VANTA — Smart Expense Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <div class="app-shell">
+    <aside class="sidebar glass">
+      <a class="brand" href="#"><span class="brand-mark">V</span><span>vanta<span class="brand-dot">.</span></span></a>
+      <div class="side-label">WORKSPACE</div>
+      <nav class="side-nav">
+        <button class="nav-link active" data-view="overview"><span>▦</span> Overview</button>
+        <button class="nav-link" data-view="transactions"><span>↕</span> Transactions</button>
+        <button class="nav-link" data-view="budgets"><span>◷</span> Budgets</button>
+        <button class="nav-link" data-view="insights"><span>⌁</span> Insights</button>
+      </nav>
+      <div class="side-bottom">
+        <div class="side-label">PREFERENCES</div>
+        <button class="nav-link" id="exportBtn"><span>⇩</span> Export CSV</button>
+        <button class="nav-link" id="resetBtn"><span>↺</span> Reset demo data</button>
+        <div class="profile-card">
+          <div class="avatar">M</div><div><strong>My Wallet</strong><small>Personal account</small></div><span class="online-dot"></span>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div><div class="eyebrow" id="dateLabel">PERSONAL FINANCE</div><h1 id="pageTitle">Good morning<span class="wave"> ✦</span></h1></div>
+        <div class="top-actions"><span class="sync-status"><i></i> Saved locally</span><button class="icon-btn" id="themeHint" title="Local-only app">⌘</button><button class="avatar top-avatar">M</button></div>
+      </header>
+
+      <section class="view active" id="overviewView">
+        <div class="hero-row">
+          <div class="hero-copy"><span class="eyebrow">YOUR FINANCIAL SNAPSHOT</span><h2>Make every rupee<br><em>count.</em></h2><p>A clearer view of your money starts here.</p></div>
+          <button class="primary-btn" id="openAdd"><span>＋</span> Add transaction</button>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card glass"><div class="stat-top"><span>Total balance</span><span class="stat-icon purple">◈</span></div><div class="stat-value" id="balanceValue">₹0</div><div class="stat-foot"><span class="trend positive">↗ Live balance</span><span class="muted">Income − expenses</span></div></article>
+          <article class="stat-card glass"><div class="stat-top"><span>Total income</span><span class="stat-icon green">↙</span></div><div class="stat-value" id="incomeValue">₹0</div><div class="stat-foot"><span class="trend positive">＋ Money in</span><span class="muted" id="incomeCount">0 entries</span></div></article>
+          <article class="stat-card glass"><div class="stat-top"><span>Total expenses</span><span class="stat-icon orange">↗</span></div><div class="stat-value" id="expenseValue">₹0</div><div class="stat-foot"><span class="trend negative">− Money out</span><span class="muted" id="expenseCount">0 entries</span></div></article>
+          <article class="stat-card glass"><div class="stat-top"><span>Monthly budget</span><span class="stat-icon blue">◎</span></div><div class="stat-value" id="budgetValue">₹0</div><div class="stat-foot"><span class="trend neutral" id="budgetStatus">Set a budget</span><span class="muted">This month</span></div></article>
+        </div>
+
+        <div class="content-grid">
+          <article class="panel glass chart-panel">
+            <div class="panel-heading"><div><span class="eyebrow">CASH FLOW</span><h3>Income vs expenses</h3></div><select id="chartRange" class="dark-select"><option value="6">Last 6 months</option><option value="12">Last 12 months</option></select></div>
+            <div class="chart-legend"><span><i class="legend-dot income-dot"></i> Income</span><span><i class="legend-dot expense-dot"></i> Expenses</span></div>
+            <div class="bar-chart" id="cashflowChart" aria-label="Monthly income and expense chart"></div>
+          </article>
+          <article class="panel glass budget-panel">
+            <div class="panel-heading"><div><span class="eyebrow">SPENDING LIMIT</span><h3>Budget overview</h3></div><button class="text-btn" data-goto="budgets">Manage ↗</button></div>
+            <div class="budget-ring-wrap"><div class="budget-ring" id="budgetRing"><div><strong id="budgetPercent">0%</strong><small>used</small></div></div></div>
+            <div class="budget-summary"><div><span class="muted">Spent</span><strong id="budgetSpent">₹0</strong></div><div><span class="muted">Remaining</span><strong id="budgetRemaining">₹0</strong></div></div>
+            <div class="budget-note" id="budgetNote">Add a monthly budget to start tracking.</div>
+          </article>
+        </div>
+
+        <article class="panel glass recent-panel">
+          <div class="panel-heading"><div><span class="eyebrow">LATEST ACTIVITY</span><h3>Recent transactions</h3></div><button class="text-btn" data-goto="transactions">View all ↗</button></div>
+          <div class="table-wrap"><table><thead><tr><th>TRANSACTION</th><th>CATEGORY</th><th>DATE</th><th>AMOUNT</th></tr></thead><tbody id="recentRows"></tbody></table></div>
+        </article>
+      </section>
+
+      <section class="view" id="transactionsView">
+        <div class="section-head"><div><span class="eyebrow">YOUR MONEY, ORGANIZED</span><h2>Transactions</h2><p>Every movement, in one place.</p></div><button class="primary-btn" id="openAdd2">＋ Add transaction</button></div>
+        <div class="filter-row glass"><div class="search-box"><span>⌕</span><input id="searchInput" placeholder="Search transactions..." /></div><select id="typeFilter" class="dark-select"><option value="all">All types</option><option value="income">Income</option><option value="expense">Expenses</option></select><select id="categoryFilter" class="dark-select"><option value="all">All categories</option></select></div>
+        <article class="panel glass"><div class="table-wrap"><table><thead><tr><th>TRANSACTION</th><th>CATEGORY</th><th>DATE</th><th>TYPE</th><th>AMOUNT</th><th></th></tr></thead><tbody id="allRows"></tbody></table></div><div class="empty-state hidden" id="emptyState">No transactions found. Add one to get started.</div></article>
+      </section>
+
+      <section class="view" id="budgetsView">
+        <div class="section-head"><div><span class="eyebrow">PLAN WITH PURPOSE</span><h2>Budgets</h2><p>Set a monthly limit and keep spending in check.</p></div></div>
+        <article class="panel glass budget-editor"><div class="panel-heading"><div><span class="eyebrow">MONTHLY TARGET</span><h3>Your spending budget</h3></div><span class="stat-icon blue">◎</span></div><form id="budgetForm" class="budget-form"><label for="budgetInput">Monthly budget (₹)</label><div class="inline-form"><input id="budgetInput" type="number" min="1" step="1" placeholder="e.g. 25000" required /><button class="primary-btn" type="submit">Save budget</button></div></form><div id="budgetDetail" class="budget-detail"></div></article>
+        <article class="panel glass"><div class="panel-heading"><div><span class="eyebrow">WHERE IT GOES</span><h3>Category breakdown</h3></div></div><div id="categoryBreakdown" class="category-breakdown"></div></article>
+      </section>
+
+      <section class="view" id="insightsView">
+        <div class="section-head"><div><span class="eyebrow">SMARTER MONEY HABITS</span><h2>Insights</h2><p>Useful patterns from the transactions you record.</p></div></div>
+        <div class="insight-grid" id="insightCards"></div>
+        <article class="panel glass"><div class="panel-heading"><div><span class="eyebrow">SPENDING MIX</span><h3>Where your money goes</h3></div></div><div id="insightBreakdown" class="category-breakdown"></div></article>
+      </section>
+      <footer>VANTA <span>•</span> Your finances stay on this device.</footer>
+    </main>
+  </div>
+
+  <div class="modal-backdrop hidden" id="transactionModal">
+    <div class="modal glass">
+      <div class="modal-head"><div><span class="eyebrow">NEW RECORD</span><h3>Add transaction</h3></div><button class="close-btn" id="closeModal">×</button></div>
+      <form id="transactionForm">
+        <div class="type-switch"><label><input type="radio" name="type" value="expense" checked><span>− Expense</span></label><label><input type="radio" name="type" value="income"><span>＋ Income</span></label></div>
+        <label for="txTitle">Description</label><input id="txTitle" type="text" maxlength="45" placeholder="e.g. Grocery shopping" required />
+        <div class="form-two"><div><label for="txAmount">Amount (₹)</label><input id="txAmount" type="number" min="1" step="0.01" placeholder="0.00" required /></div><div><label for="txCategory">Category</label><select id="txCategory" required></select></div></div>
+        <label for="txDate">Date</label><input id="txDate" type="date" required />
+        <label for="txNote">Note <span class="optional">(optional)</span></label><textarea id="txNote" rows="2" maxlength="120" placeholder="Add a little detail..."></textarea>
+        <button class="primary-btn submit-btn" type="submit">Save transaction <span>→</span></button>
+      </form>
+    </div>
+  </div>
+  <div class="toast" id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>
